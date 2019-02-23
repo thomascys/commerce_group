@@ -1,0 +1,32 @@
+<?php
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function commerce_group_entity_base_field_info(EntityTypeInterface $entity_type) {
+  if ($entity_type->id() === 'commerce_store') {
+    if (\Drupal::moduleHandler()->moduleExists('group')) {
+      $fields['group_entity'] = BaseFieldDefinition::create('entity_reference')
+        ->setLabel(t('Group'))
+        ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+        ->setSetting('target_type', 'group')
+        ->setDisplayOptions('form', [
+          'type' => 'entity_reference_autocomplete',
+          'weight' => 2,
+          'settings' => [
+            'match_operator' => 'CONTAINS',
+            'size' => '60',
+            'autocomplete_type' => 'tags',
+            'placeholder' => '',
+          ],
+        ])
+        ->setDisplayConfigurable('view', FALSE)
+        ->setDisplayConfigurable('form', TRUE);
+
+      return $fields;
+    }
+  }
+}

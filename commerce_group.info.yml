@@ -1,0 +1,8 @@
+name: 'Commerce group'
+type: module
+description: 'Specify a store for a group'
+core: 8.x
+dependencies:
+  - commerce
+  - commerce:commerce_store
+  - group
